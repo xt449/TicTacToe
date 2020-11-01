@@ -1,27 +1,27 @@
 package com.github.xt449.tictactoe;
 
-import javax.swing.*;
+import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TicTacToeActionListener implements ActionListener {
-	
+
 	private final TicTacToeBoard board;
-	
+
 	public TicTacToeActionListener(TicTacToeBoard ticTacToeBoard) {
 		board = ticTacToeBoard;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		final String command = event.getActionCommand();
-		
+
 		if(command.equals("buttonClick")) {
 			final JButton button = ((JButton) event.getSource());
-			
+
 			final String name = button.getName();
 			final int n = Integer.parseInt(name.substring(name.length() - 1));
-			
+
 			switch(n) {
 				case 1: {
 					board.placePiece(1, 1);

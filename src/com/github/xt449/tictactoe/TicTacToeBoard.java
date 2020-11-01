@@ -9,7 +9,7 @@ import java.awt.GridLayout;
 import java.util.HashMap;
 
 public class TicTacToeBoard extends JFrame {
-	
+
 	private final JButton button1 = new JButton();
 	private final JButton button2 = new JButton();
 	private final JButton button3 = new JButton();
@@ -19,7 +19,7 @@ public class TicTacToeBoard extends JFrame {
 	private final JButton button7 = new JButton();
 	private final JButton button8 = new JButton();
 	private final JButton button9 = new JButton();
-	
+
 	private final boolean aiFirst;
 	private boolean aiTurn;
 	private boolean boardFull;
@@ -33,7 +33,7 @@ public class TicTacToeBoard extends JFrame {
 		this.setLayout(new GridLayout(3, 3, 10, 10));
 		this.setSize(400, 432);
 		this.setResizable(false);
-		
+
 		button1.setActionCommand("buttonClick");
 		button2.setActionCommand("buttonClick");
 		button3.setActionCommand("buttonClick");
@@ -65,7 +65,7 @@ public class TicTacToeBoard extends JFrame {
 		button7.addActionListener(actionListener);
 		button8.addActionListener(actionListener);
 		button9.addActionListener(actionListener);
-		
+
 		this.add(button1).setName("button1");
 		this.add(button2).setName("button2");
 		this.add(button3).setName("button3");
@@ -87,24 +87,24 @@ public class TicTacToeBoard extends JFrame {
 		button8.setDisabledIcon(com.github.xt449.tictactoe.Main.ICON_DISABLED);
 		button9.setDisabledIcon(com.github.xt449.tictactoe.Main.ICON_DISABLED);
 		*/
-		
+
 		// SETUP GAME
-		
+
 		int response;
-		
+
 		do {
 			response = JOptionPane.showConfirmDialog(null, "Should the AI play first?", "Tic-Tac-Toe", JOptionPane.YES_NO_OPTION);
 		} while(response < 0);
-		
+
 		// if the user clicks yes, the AI will play first
 		aiFirst = (response == JOptionPane.YES_OPTION);
-		
+
 		// START GAME
-		
+
 		this.setVisible(true);
-		
+
 		aiTurn = aiFirst;
-		
+
 		//int update = 0;
 		//long time = System.currentTimeMillis();
 
@@ -120,7 +120,7 @@ public class TicTacToeBoard extends JFrame {
 				this.setVisible(true);
 			}
 		}
-		
+
 		// END GAME
 		
 		/*
@@ -144,7 +144,7 @@ public class TicTacToeBoard extends JFrame {
 		button8.setEnabled(false);
 		button9.setEnabled(false);
 		*/
-		
+
 		System.out.println("Game Over");
 		response = JOptionPane.showConfirmDialog(null, (lost ? "Game Over" : "Tie Game") + "\n\nPlay Again?", "Tic-Tac-Toe", JOptionPane.YES_NO_OPTION);
 
@@ -154,11 +154,11 @@ public class TicTacToeBoard extends JFrame {
 		this.setVisible(false);
 		//this.setEnabled(false);
 	}
-	
+
 	private void endTurn() {
 		aiTurn = !aiTurn;
 	}
-	
+
 	/**
 	 * @param x coordinate starting at 1 from the left.
 	 * @param y coordinate starting at 1 from the top.
@@ -167,7 +167,7 @@ public class TicTacToeBoard extends JFrame {
 		if(x < 1 || x > 3 || y < 1 || y > 3) {
 			throw new IndexOutOfBoundsException("Parameters must be within 1 and 3");
 		}
-		
+
 		switch(x) {
 			case 1: {
 				switch(y) {
@@ -212,34 +212,34 @@ public class TicTacToeBoard extends JFrame {
 				break;
 			}
 		}
-		
+
 		throw new IndexOutOfBoundsException();
 	}
-	
+
 	private String getRowSet(int row) {
 		final StringBuilder builder = new StringBuilder();
-		
+
 		for(int i = 1; i < 4; i++) {
 			builder.append(getButtonContent(i, row));
 		}
-		
+
 		return builder.toString();
 	}
-	
+
 	private String getColumnSet(int column) {
 		final StringBuilder builder = new StringBuilder();
-		
+
 		for(int i = 1; i < 4; i++) {
 			builder.append(getButtonContent(column, i));
 		}
-		
+
 		return builder.toString();
 	}
 
 	private String getDiagonalDownSet() {
 		return getButtonContent(1, 1) + getButtonContent(2, 2) + getButtonContent(3, 3);
 	}
-	
+
 	private String getDiagonalUpSet() {
 		return getButtonContent(3, 1) + getButtonContent(2, 2) + getButtonContent(1, 3);
 	}
@@ -247,26 +247,26 @@ public class TicTacToeBoard extends JFrame {
 	private boolean isButtonEmpty(int x, int y) {
 		return getButtonContent(x, y).isEmpty();
 	}
-	
+
 	private String getButtonContent(int x, int y) {
 		return getButton(x, y).getText();
 	}
-	
+
 	public void placePiece(int x, int y) {
 		final JButton button = getButton(x, y);
-		
+
 		button.setEnabled(false);
 
 		button.setText((aiTurn != aiFirst ? "O" : "X"));
-		
+
 		endTurn();
 		boardFull = isBoardFull();
 	}
-	
+
 	/**
 	 * @param aiMoves controls the side for which moves are analysed:
-	 * <br>if true looks for moves that the AI can make for lethal</br>
-	 * <br>if false looks for moves that the player can make for lethal</br>
+	 *                <br>if true looks for moves that the AI can make for lethal</br>
+	 *                <br>if false looks for moves that the player can make for lethal</br>
 	 */
 	private HashMap<Integer, Integer> getLethalMoves(boolean aiMoves) {
 		final HashMap<Integer, Integer> moves = new HashMap<>();
@@ -278,7 +278,7 @@ public class TicTacToeBoard extends JFrame {
 		System.out.println("xor: " + (aiMoves^aiFirst));
 		System.out.println(lethal);
 		TODO - DEBUG */
-		
+
 		for(int i = 1; i < 4; i++) {
 			if(getColumnSet(i).equalsIgnoreCase(lethal)) {
 				if(isButtonEmpty(i, 1)) {
@@ -289,7 +289,7 @@ public class TicTacToeBoard extends JFrame {
 					moves.put(i, 3);
 				}
 			}
-			
+
 			if(getRowSet(i).equalsIgnoreCase(lethal)) {
 				if(isButtonEmpty(1, i)) {
 					moves.put(1, i);
@@ -300,7 +300,7 @@ public class TicTacToeBoard extends JFrame {
 				}
 			}
 		}
-		
+
 		if(getDiagonalDownSet().equalsIgnoreCase(lethal)) {
 			if(isButtonEmpty(1, 1)) {
 				moves.put(1, 1);
@@ -310,7 +310,7 @@ public class TicTacToeBoard extends JFrame {
 				moves.put(3, 3);
 			}
 		}
-		
+
 		if(getDiagonalUpSet().equalsIgnoreCase(lethal)) {
 			if(isButtonEmpty(1, 3)) {
 				moves.put(1, 3);
@@ -320,35 +320,35 @@ public class TicTacToeBoard extends JFrame {
 				moves.put(3, 1);
 			}
 		}
-		
+
 		return moves;
 	}
-	
+
 	private boolean executeAITurn() {
 		HashMap<Integer, Integer> moves;
-		
+
 		// Manage Bot lethal moves
 		moves = getLethalMoves(true);
 
 		if(moves.size() > 0) {
 			HashMap.Entry<Integer, Integer> move = moves.entrySet().iterator().next();
-			
+
 			placePiece(move.getKey(), move.getValue());
 			return true;
 		}
 		// end
-		
+
 		// Manage Player lethal moves
 		moves = getLethalMoves(false);
-		
+
 		if(moves.size() > 0) {
 			HashMap.Entry<Integer, Integer> move = moves.entrySet().iterator().next();
-			
+
 			placePiece(move.getKey(), move.getValue());
 			return false;
 		}
 		// end
-		
+
 		// Middle first
 		if(isButtonEmpty(2, 2)) {
 			placePiece(2, 2);
@@ -361,17 +361,17 @@ public class TicTacToeBoard extends JFrame {
 			placePiece(1, 1);
 			return false;
 		}
-		
+
 		if(isButtonEmpty(3, 1)) {
 			placePiece(3, 1);
 			return false;
 		}
-		
+
 		if(isButtonEmpty(1, 3)) {
 			placePiece(1, 3);
 			return false;
 		}
-		
+
 		if(isButtonEmpty(3, 3)) {
 			placePiece(3, 3);
 			return false;
@@ -403,7 +403,7 @@ public class TicTacToeBoard extends JFrame {
 		System.out.println("Missing rule for moves or board is full.");
 		return true;
 	}
-	
+
 	private boolean isBoardFull() {
 		return (getRowSet(1).length() == 3 && getRowSet(2).length() == 3 && getRowSet(3).length() == 3);
 	}
